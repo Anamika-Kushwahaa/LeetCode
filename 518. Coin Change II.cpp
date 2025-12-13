@@ -1,0 +1,79 @@
+// 518. Coin Change II
+// You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.
+
+// Return the number of combinations that make up that amount. If that amount of money cannot be made up by any combination of the coins, return 0.
+
+// You may assume that you have an infinite number of each kind of coin.
+
+// The answer is guaranteed to fit into a signed 32-bit integer.
+
+
+// Example 1:
+
+// Input: amount = 5, coins = [1,2,5]
+// Output: 4
+// Explanation: there are four ways to make up the amount:
+// 5=5
+// 5=2+2+1
+// 5=2+1+1+1
+// 5=1+1+1+1+1
+// Example 2:
+
+// Input: amount = 3, coins = [2]
+// Output: 0
+// Explanation: the amount of 3 cannot be made up just with coins of 2.
+// Example 3:
+
+// Input: amount = 10, coins = [10]
+// Output: 1
+ 
+
+// Constraints:
+
+// 1 <= coins.length <= 300
+// 1 <= coins[i] <= 5000
+// All the values of coins are unique.
+// 0 <= amount <= 5000
+
+
+//CODE
+// dp with memoization code
+
+class Solution {
+public:
+    int change(int amount, vector<int>& coins) {
+        vector<unsigned long long> dp(amount + 1, 0);
+        dp[0] = 1;
+
+        for (int coin : coins) {
+            for (int x = coin; x <= amount; x++) {
+                dp[x] += dp[x - coin];
+            }
+        }
+        return (int)dp[amount]; // LeetCode expects int
+    }
+};
+
+
+
+//Alternate - without dp
+//Isme TLE hoga
+
+class Solution {
+public:
+    int solve(int idx, int amount, vector<int>& coins) {
+        // exact amount formed
+        if (amount == 0) return 1;
+
+        // invalid case
+        if (amount < 0 || idx == coins.size()) return 0;
+
+        // take coin + skip coin
+        return solve(idx, amount - coins[idx], coins) +
+               solve(idx + 1, amount, coins);
+    }
+
+    int change(int amount, vector<int>& coins) {
+        return solve(0, amount, coins);
+    }
+};
