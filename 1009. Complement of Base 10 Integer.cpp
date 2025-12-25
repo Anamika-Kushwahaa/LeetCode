@@ -4,10 +4,7 @@
 // For example, The integer 5 is "101" in binary and its complement is "010" which is the integer 2.
 // Given an integer n, return its complement.
 
- 
-
 // Example 1:
-
 // Input: n = 5
 // Output: 2
 // Explanation: 5 is "101" in binary, with complement "010" in binary, which is 2 in base-10.
